@@ -52,4 +52,18 @@ def validate_data(values):
         print(f"Invalid data: {e}, please try again.")
         return False
 
+
+def update_sales_worksheet(data):
+    """
+    Update sales worksheet, add row with the list data provided.
+    """
+
+    print("Updating sales worksheet...")
+    print()
+    sales_worksheet = SHEET.worksheet('sales')
+    sales_worksheet.append_row(data)
+    print("sales worksheet updated successfully! \n")
+
 data = get_sales_data()
+sales_data = [int(num) for num in data]
+update_sales_worksheet(sales_data)
