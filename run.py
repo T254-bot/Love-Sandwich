@@ -53,17 +53,34 @@ def validate_data(values):
         print(f"Invalid data: {e}, please try again.")
         return False
 
+"""
+def update_surplus_worksheet(data):
+    ""
+    Update surplus worksheet, add row with the list data provided.
+    Now uses refactored version of function update_worksheet()
+    Leaving commented out as an example of refactoring
+    ""
 
-def update_sales_worksheet(data):
-    """
-    Update sales worksheet, add row with the list data provided.
-    """
+    print("Updating surplus worksheet...")
 
-    print("Updating sales worksheet...")
-    print()
-    sales_worksheet = SHEET.worksheet('sales')
-    sales_worksheet.append_row(data)
-    print("sales worksheet updated successfully! \n")
+    surplus_worksheet = SHEET.worksheet('surplus')
+    surplus_worksheet.append_row(data)
+
+    print("surplus worksheet updated successfully! \n")
+"""
+
+def update_worksheet(data, worksheet):
+    """
+    Receives list of integers to be inserted into a worksheet 
+    Updates the relevant worksheet with the data provided
+    """
+    print(f"Updating {worksheet} worksheet...")
+
+    current_worksheet = SHEET.worksheet(worksheet)
+    current_worksheet.append_row(data)
+
+    print(f"{worksheet} updated successfully!\n")
+
 
 def calculate_surplus_data(sales_row):
     """
@@ -85,15 +102,31 @@ def calculate_surplus_data(sales_row):
     print("Completed calculating surplus data!\n")
     return surplus_data
 
+def get_last_5_entires_sales():
+    """
+    Collects columns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data 
+    as a list of lists
+    """
+    sales = SHEET.worksheet('sales')
+
+    columns = []
+    for i in range(1, 7):
+        column = sales.col_values(i)
+        columns.append(column[-5:])
+    return columns
+        
+
 def main():
     """
     Runs all program functions
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, 'sales')
     new_surplus_data = calculate_surplus_data(sales_data)
-    print(new_surplus_data)
+    update_worksheet(new_surplus_data, 'surplus')
 
 print("Welcome to Love Sandwiches Data Automation!")
-main()
+#main()
+get_last_5_entires_sales()
