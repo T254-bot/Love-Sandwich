@@ -144,6 +144,21 @@ def main():
     sales_columns = get_last_5_entires_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, 'stock')
+    return stock_data
 
 print("Welcome to Love Sandwiches Data Automation!")
-main()
+stock_data = main()
+
+def get_stock_values(data):
+
+    headings = SHEET.worksheet('stock').row_values(1)
+    stock_vals = {headings[i]:data[i] for i in range(6)}
+
+    return stock_vals
+
+stock_values = get_stock_values(stock_data)
+
+print("Make the following number of sandwiches for the next day:")
+print(stock_values)
+
+
